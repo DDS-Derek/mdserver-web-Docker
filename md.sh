@@ -16,6 +16,7 @@ cd /
 /www/server/openresty/init.d/openresty start
 /www/server/php/init.d/php74 start
 /www/server/mysql/init.d/mysql start
+/usr/sbin/cron
 
 mw default
 

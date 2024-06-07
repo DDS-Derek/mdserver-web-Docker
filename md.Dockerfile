@@ -13,4 +13,5 @@ RUN set -ex && \
         /var/lib/apt/lists/* \
         /var/tmp/* \
         /var/log/* \
-        /root/.cache
+        /root/.cache \
+        /mw-install.log

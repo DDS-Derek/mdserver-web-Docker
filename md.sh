@@ -10,6 +10,9 @@ fi
 if [ -n "${PASSWORD}" ]; then
     /www/server/mdserver-web/bin/python tools.py panel "${PASSWORD}"
 fi
+if [ "${CLOSE_ADMIN_PATH}" == true ]; then
+    mw close_admin_path
+fi
 cd /
 
 /etc/init.d/mw start

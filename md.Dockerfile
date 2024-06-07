@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND="noninteractive"
 
 RUN set -ex && \
     apt update -y && \
-    apt install curl -y && \
+    apt install curl nano ssh -y && \
     curl --insecure -fsSL https://cdn.jsdelivr.net/gh/midoks/mdserver-web@latest/scripts/install.sh | bash && \
     apt-get autoremove -y && \
     apt-get clean && \

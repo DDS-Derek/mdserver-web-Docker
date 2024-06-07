@@ -1,7 +1,7 @@
 FROM ddsderek/mdserver-web:lnp
 
 ARG MYSQL_VERSION=5.7
-ARG PHPMYADMIN_VERSION=5.2.0
+ARG PHPMYADMIN_VERSION=4.4.15
 ARG DEBIAN_FRONTEND="noninteractive"
 
 RUN cd /www/server/mdserver-web/plugins/mysql && \

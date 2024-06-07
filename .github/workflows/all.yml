@@ -1,0 +1,190 @@
+name: all
+
+on:
+  workflow_dispatch:
+
+jobs:
+  md:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@master
+      
+      - 
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/mdserver-web
+          tags: |
+            type=raw,value=md
+
+      - 
+        name: Set Up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - 
+        name: Set Up Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - 
+        name: Login DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - 
+        name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: md.Dockerfile
+          platforms: |
+            linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  lnp:
+    runs-on: ubuntu-latest
+    needs: [md]
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@master
+      
+      - 
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/mdserver-web
+          tags: |
+            type=raw,value=lnp
+
+      - 
+        name: Set Up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - 
+        name: Set Up Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - 
+        name: Login DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - 
+        name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: lnp.Dockerfile
+          platforms: |
+            linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  lnmp:
+    runs-on: ubuntu-latest
+    needs: [lnp]
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@master
+      
+      - 
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/mdserver-web
+          tags: |
+            type=raw,value=lnmp
+
+      - 
+        name: Set Up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - 
+        name: Set Up Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - 
+        name: Login DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - 
+        name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: lnmp.Dockerfile
+          platforms: |
+            linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  latest:
+    runs-on: ubuntu-latest
+    needs: [lnmp]
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@master
+      
+      - 
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/mdserver-web
+          tags: |
+            type=raw,value=latest
+
+      - 
+        name: Set Up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - 
+        name: Set Up Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - 
+        name: Login DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - 
+        name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          platforms: |
+            linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - 
+        name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ secrets.DOCKER_USERNAME }}/mdserver-web
+          short-description: mdserver-web docker image
+          readme-filepath: ./README.md

@@ -37,7 +37,7 @@ jobs:
 
       - 
         name: Build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: md.Dockerfile
@@ -81,7 +81,7 @@ jobs:
 
       - 
         name: Build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: lnp.Dockerfile
@@ -125,7 +125,7 @@ jobs:
 
       - 
         name: Build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: lnmp.Dockerfile
@@ -169,7 +169,7 @@ jobs:
 
       - 
         name: Build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: Dockerfile
